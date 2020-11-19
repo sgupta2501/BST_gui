@@ -5,7 +5,7 @@
  */
 package assignment3;
 import java.util.ArrayList;
-import javafx.scene.shape.Circle;
+//import javafx.scene.shape.Circle;
 /**
  *
  * @author sam
@@ -40,7 +40,7 @@ public class Tree {
     }
     //constructor with arraylist of nodes
     //insert an element in BST
-    Node insertTree(Node root, int key){kl
+    Node insertTree(Node root, int key){
         if(root==null){
             Node leaf=new Node(key);
             root=leaf;
@@ -84,9 +84,9 @@ public class Tree {
             }
         if (root.key < key) 
             {
-            return SearchTree(root.right, key); 
+            return searchTree(root.right, key); 
             }
-        return SearchTree(root.left, key); 
+        return searchTree(root.left, key); 
     }
     //searching an element
     boolean search(int element)
@@ -96,18 +96,11 @@ public class Tree {
         else
             return false;
     }
-    ArrayList<Integer> preorder(ArrayList<Integer> p,Node root)
-    {
-        if (root != null) { 
-            p.add(root.key); 
-            preorder(p,root.left); 
-            preorder(p,root.right); 
-        } 
-        return p;
-    }
+
     //deleting an element
  void delete(int elem){
         root=deleteTree(root,elem);
+        height=height();
     }
     Node insertDel(Node root,Node leaf){
         if(root==null){
@@ -149,7 +142,6 @@ public class Tree {
         }
         return root;
     }
-    //preorder traversal
     ArrayList<Integer> inorder(ArrayList<Integer> p,Node root)
     {
         if (root != null) { 
@@ -170,7 +162,15 @@ public class Tree {
         } 
         return p;
     }
-    //inorder traversal
+    ArrayList<Integer> preorder(ArrayList<Integer> p,Node root)
+    {
+        if (root != null) { 
+            p.add(root.key); 
+            preorder(p,root.left); 
+            preorder(p,root.right); 
+        } 
+        return p;
+    }
     
     //clear the tree 
     void clear()
