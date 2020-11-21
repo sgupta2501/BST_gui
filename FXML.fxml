@@ -24,14 +24,15 @@
             <Button mnemonicParsing="false" onAction="#searchButton" prefHeight="35.0" prefWidth="90.0" styleClass="control-button" text="Search" />
             <Button mnemonicParsing="false" onAction="#deleteButton" prefHeight="35.0" prefWidth="90.0" styleClass="control-button" text="Delete" />
             <Button mnemonicParsing="false" onAction="#clearButton" prefHeight="35.0" prefWidth="90.0" styleClass="control-button" text="Clear" />
-            <effect>
-               <Glow />
-            </effect>
       </VBox>
        <VBox spacing="5">
             <Button mnemonicParsing="false" onAction="#inorderButton" prefHeight="35.0" prefWidth="90.0" styleClass="control-button" text="Inorder" />
             <Button mnemonicParsing="false" onAction="#preorderButton" prefHeight="35.0" prefWidth="90.0" styleClass="control-button" text="Preorder" />
             <Button mnemonicParsing="false" onAction="#postorderButton" prefHeight="35.0" prefWidth="90.0" styleClass="control-button" text="Postorder" />
+      </VBox>
+       <VBox spacing="5">
+            <Button mnemonicParsing="false" onAction="#sortASCButton" prefHeight="35.0" prefWidth="90.0" styleClass="control-button" text="Sort ASC" />
+            <Button mnemonicParsing="false" onAction="#sortDESCButton" prefHeight="35.0" prefWidth="90.0" styleClass="control-button" text="Sort DESC" />
       </VBox>
         </VBox>
    </left>
