@@ -1,29 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package assignment3;
 
 import static java.lang.Integer.parseInt;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.text.Text;
 import javafx.scene.control.TextField;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Text;  
 import javafx.geometry.Point2D;
+import javafx.scene.canvas.*; 
+import javafx.scene.paint.Color;
 
 /**
  * FXML Controller class
@@ -31,15 +20,8 @@ import javafx.geometry.Point2D;
  * @author sam
  */
 
-import javafx.scene.canvas.*; 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-
-/**
- *
- * @author sam
- */
-class GTree extends Canvas{
+class GTree extends Canvas
+{
     public Tree tree;
     public String listTraversed;
     public int maxHeightAllowed;
@@ -51,8 +33,10 @@ class GTree extends Canvas{
         listTraversed="";
         maxHeightAllowed=6;
         defaultColor=Color.LIGHTGREEN;
-    }
-        //render elements of the tree on GUI
+        widthProperty().addListener(evt -> draw()); //for listening to change in width
+        heightProperty().addListener(evt -> draw()); //for listening to change in height
+    }    
+    //render elements of the tree on GUI
     void draw()
     {
 	GraphicsContext gc = getGraphicsContext2D();
@@ -74,7 +58,7 @@ class GTree extends Canvas{
     
     void drawTree(GraphicsContext gc, Node treeNode, double xMin, double xMax, Point2D center, double diameter) 
     {
-        // Set the Color
+        // Set the stroke Color
         gc.setStroke(Color.BROWN);
         
         if(treeNode!=null)
@@ -85,24 +69,23 @@ class GTree extends Canvas{
             treeNode.color = defaultColor;
             gc.strokeText(""+treeNode.key, center.getX()-6,center.getY()+5);
             Point2D center2;
-            if (treeNode.left != null) {
+            if (treeNode.left != null) 
+            {
                     // Determine the start and end points of the line                 
                     center2 = new Point2D((xMin+center.getX())/2,(center.getY()+diameter));
                     gc.strokeLine(center.getX()-diameter/5,center.getY()+diameter/8,center2.getX(),center2.getY());
-
                     // Recurse left circle nodes
                     drawTree(gc, treeNode.left, xMin, center.getX(), center2, diameter);
             }
 
             // If right node is not null then draw a line to it
-            if (treeNode.right != null) {
+            if (treeNode.right != null) 
+            {
                     // Determine the start and end points of the line                 
                     center2 = new Point2D((center.getX()+xMax)/2,(center.getY()+diameter));
                     gc.strokeLine(center.getX()+diameter/5,center.getY()+diameter/8,center2.getX(),center2.getY());
-
                     // Recurse left circle nodes
-                    drawTree(gc, treeNode.right, center.getX(), xMax, center2, diameter);
-                    
+                    drawTree(gc, treeNode.right, center.getX(), xMax, center2, diameter);     
             }
         }
     }
@@ -185,7 +168,6 @@ class GTree extends Canvas{
         storeList(l,rev);
         draw();
     }
-    
     //clear the tree 
     void clear()
     {
@@ -203,10 +185,10 @@ public class FXMLController implements Initializable{
 
     private GTree gtree;
 
-	/**
-	 * Constructs the GUI components and performs events for displaying and
-	 * changing the data in the binary tree.
-	 */
+    /**
+     * Constructs the GUI components and performs events for displaying and
+     * changing the data in the binary tree.
+     */
 	
     /*Initializable and the method it adds are used when you want to interact with stuff injected with @FXML. 
     During construction those variables aren't filled so you cannot interact with them so JavaFX will call 
@@ -214,7 +196,8 @@ public class FXMLController implements Initializable{
     can be manipulated.*/
     
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources) 
+    {
 
             // The center panel is for drawing the tree
             gtree = new GTree();
@@ -226,78 +209,89 @@ public class FXMLController implements Initializable{
 
             gtree.clear();
             valueList.setText("");
-            counters.setText("Height: "+gtree.tree.height + " No. of Nodes: "+gtree.tree.noOfNodes);
-            
-	}
+            counters.setText("Height: "+gtree.tree.height + " No. of Nodes: "+gtree.tree.noOfNodes);   
+    }
     
-    @FXML protected void insertButton(ActionEvent event) {
+    @FXML protected void insertButton(ActionEvent event) 
+    {
        String strV=value.getText();
-       if (strV.isBlank()){
+       if (strV.isBlank())
+       {
             counters.setText("Height: "+gtree.tree.height + "  No. of Nodes: "+gtree.tree.noOfNodes+
                     "                                  No key value given");
        }
-       else {
-        gtree.insert(parseInt(strV));
-        valueList.setText(valueList.getText()+" "+strV + "i");
-        counters.setText("Height: "+gtree.tree.height + "  No. of Nodes: "+gtree.tree.noOfNodes);
-
+       else 
+       {
+            gtree.insert(parseInt(strV));
+            valueList.setText(valueList.getText()+" "+strV + "i");
+            counters.setText("Height: "+gtree.tree.height + "  No. of Nodes: "+gtree.tree.noOfNodes);
        }
     }
     @FXML protected void searchButton(ActionEvent event) {
         String strV=value.getText();
-        if (strV.isBlank()){
+        if (strV.isBlank())
+        {
             counters.setText("Height: "+gtree.tree.height + "  No. of Nodes: "+gtree.tree.noOfNodes+
                     "                                  No key value given");
         }
-        else {
+        else 
+        {
             String str = gtree.search(parseInt(strV));
             valueList.setText(valueList.getText()+" "+strV + "s");
             counters.setText("Height: "+gtree.tree.height + "  No. of Nodes: "+gtree.tree.noOfNodes+
                     "               "+str);
        }
     }
-    @FXML protected void deleteButton(ActionEvent event) {
+    @FXML protected void deleteButton(ActionEvent event) 
+    {
         String strV=value.getText();
-        if (strV.isBlank()){
+        if (strV.isBlank())
+        {
             counters.setText("Height: "+gtree.tree.height + "  No. of Nodes: "+gtree.tree.noOfNodes+
                     "                                  No key value given");
         }
-        else {
-        String str=gtree.delete(parseInt(strV));
-        valueList.setText(valueList.getText()+" "+strV + "d");
-        counters.setText("Height: "+gtree.tree.height + "  No. of Nodes: "+gtree.tree.noOfNodes+
-                "               "+str);
+        else 
+        {
+            String str=gtree.delete(parseInt(strV));
+            valueList.setText(valueList.getText()+" "+strV + "d");
+            counters.setText("Height: "+gtree.tree.height + "  No. of Nodes: "+gtree.tree.noOfNodes+
+                    "               "+str);
         }
     }
-    @FXML protected void clearButton(ActionEvent event) {
+    @FXML protected void clearButton(ActionEvent event) 
+    {
        gtree.clear();
        valueList.setText("");
        counters.setText("Height: "+gtree.tree.height + " No. of Nodes: "+gtree.tree.noOfNodes);
     }
-    @FXML protected void inorderButton(ActionEvent event) {
+    @FXML protected void inorderButton(ActionEvent event) 
+    {
         gtree.inorder(' ');
         counters.setText("Height: "+gtree.tree.height + "  No. of Nodes: "+gtree.tree.noOfNodes+"          "+"Inorder Traversal:   "+
                 gtree.listTraversed);
     }
-    @FXML protected void preorderButton(ActionEvent event) {
+    @FXML protected void preorderButton(ActionEvent event) 
+    {
         gtree.preorder();
         counters.setText("Height: "+gtree.tree.height + "  No. of Nodes: "+gtree.tree.noOfNodes+"          "+"Preorder Traversal:   "+
                 gtree.listTraversed);
     }
-    @FXML protected void postorderButton(ActionEvent event) {
+    @FXML protected void postorderButton(ActionEvent event) 
+    {
         gtree.postorder();
         counters.setText("Height: "+gtree.tree.height + "  No. of Nodes: "+gtree.tree.noOfNodes+"          "+"Postorder Traversal:   "+
                 gtree.listTraversed);
     }
-    @FXML protected void sortASCButton(ActionEvent event) {
+    @FXML protected void sortASCButton(ActionEvent event) 
+    {
         gtree.inorder(' ');
         counters.setText("Height: "+gtree.tree.height + "  No. of Nodes: "+gtree.tree.noOfNodes+"          "+"Sorted List Ascending:   "+
                 gtree.listTraversed);
     }
-    @FXML protected void sortDESCButton(ActionEvent event) {
+    @FXML protected void sortDESCButton(ActionEvent event) 
+    {
         gtree.inorder('r');
         counters.setText("Height: "+gtree.tree.height + "  No. of Nodes: "+gtree.tree.noOfNodes+"          "+"Sorted List Descending:   "+
                 gtree.listTraversed);
     }
 }
-  
